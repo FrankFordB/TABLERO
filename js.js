@@ -78,7 +78,14 @@ function actualizarCronometro() {
             `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
     }
 }
-
+function pararCronometro() {
+    if (cronometroActivo) {
+        clearInterval(intervaloCronometro);
+        cronometroActivo = false;
+    }
+    tiempoRestante = 25 * 60; // Reinicia el tiempo a 25 minutos
+    actualizarCronometro();
+}
 function iniciarPausarCronometro() {
     if (cronometroActivo) {
         clearInterval(intervaloCronometro);
@@ -123,6 +130,7 @@ document.getElementById('input-logo-visitante').addEventListener('change', funct
 });
 
 // Permite editar los nombres de los equipos al hacer clic
+
 document.querySelectorAll('.equipos_fuente1').forEach(function(element) {
     element.addEventListener('keydown', function(e) {
         // Evita que otras funciones escuchen teclas mientras se edita
@@ -134,27 +142,63 @@ document.querySelectorAll('.equipos_fuente1').forEach(function(element) {
         }
     });
 });
+
+let modalAbierto = false;
+
 document.addEventListener('keydown', function(event) {
-    // Reiniciar reloj con "r"
-    if ((event.key === 'r' || event.key === 'R') && !document.activeElement.isContentEditable) {
-        if (confirm('¿Seguro que quieres reiniciar el reloj a 25 minutos?')) {
-            tiempoRestante = 25 * 60;
-            actualizarCronometro();
-        }
+    if ((event.key === 'r' || event.key === 'R') && !document.activeElement.isContentEditable && !modalAbierto) {
+        modalAbierto = true;
+        var modal = new bootstrap.Modal(document.getElementById('modal_tiempo_reset'));
+        modal.show();
+
+        // Cuando el modal se cierra, resetea la variable
+        document.getElementById('modal_tiempo_reset').addEventListener('hidden.bs.modal', function handler() {
+            modalAbierto = false;
+            // Elimina el listener para evitar múltiples registros
+            this.removeEventListener('hidden.bs.modal', handler);
+        });
     }
-    // Nuevo partido con "y"
-    if ((event.key === 'y' || event.key === 'Y') && !document.activeElement.isContentEditable) {
-        if (confirm('¿Seguro que quieres iniciar un nuevo partido? Se reiniciarán los goles, periodo y reloj.')) {
+});
+document.getElementById('reset-grabado').onclick = function () {
+    tiempoRestante = 25 * 60;
+            actualizarCronometro();
+            pararCronometro();
+
+}
+
+document.addEventListener('keydown', function(event) {
+    if ((event.key === 'y' || event.key === 'Y') && !document.activeElement.isContentEditable && !modalAbierto) {
+        modalAbierto = true;
+        var modal = new bootstrap.Modal(document.getElementById('modal_tiempo_total_reset'));
+        modal.show();
+
+        // Cuando el modal se cierra, resetea la variable
+        document.getElementById('modal_tiempo_total_reset').addEventListener('hidden.bs.modal', function handler() {
+            modalAbierto = false;
+            // Elimina el listener para evitar múltiples registros
+            this.removeEventListener('hidden.bs.modal', handler);
+        });
+    }
+});
+document.getElementById('reset-TOTAL').onclick = function () {
+    tiempoRestante = 25 * 60;
             // Reinicia goles
             counter = 0;
             counterVisita = 0;
             updateDisplay();
+            // Reinicia logo local
+            document.getElementById('logo-local').src = '';
+        document.getElementById('logo-visitante').src = '';
             // Reinicia periodo
             periodo = 1;
             updatePeriodoDisplay();
             // Reinicia reloj
             tiempoRestante = 25 * 60;
             actualizarCronometro();
-        }
-    }
-});
+            pararCronometro();
+            document.querySelectorAll('.equipos_fuente1').forEach(function(element) {
+                element.textContent = 'EQUIPOS';});
+
+}
+
+   

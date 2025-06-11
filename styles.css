@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 @import url('https://fonts.cdnfonts.com/css/ds-digital');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap');
 body {
     font-family: 'Orbitron', sans-serif;
     background-color: black;
@@ -84,15 +85,15 @@ button:disabled {
     text-align: center;
 }
 .equipos_fuente1 {
-    font-family: ds-digital, sans-serif;
-    font-size: 4em;
-    text-transform: uppercase;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2.8em;
+    text-transform: capitalize;
     color: white;
     text-align: center;
     width: 4em;           /* ancho fijo */
     margin-top: 8%;       /* alto fijo */
-    overflow: hidden;     /* oculta el exceso */
-    width: 100%; /* ancho completo */
+         /* oculta el exceso */
+    
     text-overflow: ellipsis; /* agrega ... si el texto es muy largo */
     display: flex;
     align-items: center;
@@ -155,7 +156,7 @@ button:disabled {
 }
 .tiempo_fuente {
     font-family: ds-digital, sans-serif;
-    font-size: 1.5em;
+    font-size: 1.6em;
     color: red;
     text-align: center;
 }
@@ -193,5 +194,6 @@ button:disabled {
 }
 .titulo_h1 {
     font-size: 1.8em;
+    margin-bottom: 1em;
 }  /* Agrega más reglas según lo que necesites ajustar */
 }
