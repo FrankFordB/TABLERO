@@ -141,33 +141,36 @@ document.addEventListener('keydown', function(event) {
         activarPantallaCompleta();
     }
 });
+
 // Iniciar cronómetro principal
 function iniciarCronometro() {
     clearInterval(cronometroInterval);
     cronometroInterval = setInterval(() => {
         if (segundosRestantes > 0) {
-    segundosRestantes--;
-    // Actualiza sanciones aquí
-    sancionesLocal.concat(sancionesVisitante).forEach(sancion => {
-        if (sancion.activo && sancion.tiempo > 0) {
-            sancion.tiempo--;
-            let min = Math.floor(sancion.tiempo / 60);
-            let seg = sancion.tiempo % 60;
-            sancion.elemento.querySelector('.sancion-crono').textContent =
-                `${min.toString().padStart(2, '0')}:${seg.toString().padStart(2, '0')}`;
-            if (sancion.tiempo === 0) {
-                sancion.elemento.querySelector('.sancion-crono').textContent = "Ingresa";
-                sancion.elemento.style.backgroundColor = "green";
-                sancion.finalizada = true;
+            // --- SUENA EL AUDIO CUANDO FALTA 1 SEGUNDO ---
+            if (segundosRestantes === 1) {
+                reproducirSonidoFinPeriodo();
             }
-        }
-    });
-    actualizarCronometro();
-    // ...resto de tu código...
-}
-  else {
+            segundosRestantes--;
+            // Actualiza sanciones aquí...
+            sancionesLocal.concat(sancionesVisitante).forEach(sancion => {
+                if (sancion.activo && sancion.tiempo > 0) {
+                    sancion.tiempo--;
+                    let min = Math.floor(sancion.tiempo / 60);
+                    let seg = sancion.tiempo % 60;
+                    sancion.elemento.querySelector('.sancion-crono').textContent =
+                        `${min.toString().padStart(2, '0')}:${seg.toString().padStart(2, '0')}`;
+                    if (sancion.tiempo === 0) {
+                        sancion.elemento.querySelector('.sancion-crono').textContent = "Ingresa";
+                        sancion.elemento.style.backgroundColor = "green";
+                        sancion.finalizada = true;
+                    }
+                }
+            });
+            actualizarCronometro();
+        } else {
             clearInterval(cronometroInterval);
-            // Solo ejecuta la lógica de cambio de periodo o ganador, NO reproduzcas el sonido aquí
+            // ...resto de tu lógica de cambio de periodo o ganador...
             if (!enEntretiempo && periodoActual === 1) {
                 enEntretiempo = true;
                 segundosRestantes = minutosEntretiempo * 60;
