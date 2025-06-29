@@ -56,6 +56,8 @@ button:disabled {
     object-fit: contain;
     margin: 0 auto;
     display: block;
+    background: #fff;
+    background-color: #fff; 
 
 }
 
@@ -110,6 +112,7 @@ input[type=number]::-webkit-outer-spin-button {
     display: flex;
     width: 100%;
     gap: 40%;
+    padding: 20px 0px;
 }
 
 .equipos {
@@ -120,7 +123,8 @@ input[type=number]::-webkit-outer-spin-button {
     flex-direction: column;
     align-self: center;
     align-content: center;
-    margin: 0 5px;
+    margin: 0 28px;
+    
 }
 
 .modal-body {
@@ -369,7 +373,7 @@ input[type="file"] {
         /* rellena el espacio y recorta si es necesario */
         border-radius: 0;
         /* opcional: cuadrado, o pon 50% para círculo */
-        background: #222;
+        background: #f0efef;
     }
 
     .goles {
@@ -395,7 +399,9 @@ input[type="file"] {
     }
 
     .equipos_master {
-        text-align: end;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         width: 90%;
 
